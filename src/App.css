@@ -1,0 +1,123 @@
+body {
+    justify-content: center;
+    color: rgb(230, 230, 242);
+    margin: 0;
+    background-image: url(../public/images/invierno5.jpg);
+    text-align: justify;
+    background-attachment: fixed;
+}
+
+.title {
+    color: brown;
+    background-color: rgba(0, 255, 255, 0);
+    margin: 0;
+    padding: 1px;
+}
+
+h1 {
+    color: #29c1e0;
+}
+
+p {
+    background-image: none;
+    text-align: center;
+    margin: 10px 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    justify-items: center;
+    margin: 5px auto;
+    font-size: 1.5em;
+    box-sizing: border-box;
+}
+
+select {
+    font-size: 1em;
+}
+
+@media (min-width: 800px) {
+    .app {
+        max-width: 800px;
+        height: auto;
+        margin: 0 auto;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.419);
+        border-radius: 20px;
+    }
+    .app:hover{
+        background-color: rgba(253, 242, 242, 0.17);
+     }
+    .title{
+        padding: 10px;
+        margin: 0;
+        border-radius: 20px;
+        margin: 0;
+    }
+
+     input,select{
+    border-radius: 20px;
+    justify-content: center;
+}
+
+  
+}
+
+@media (min-width: 768px) {
+    p {
+        font-size: 20px;
+    }
+    h1 {
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+    }
+    input, select {
+        width: 100%;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    p {
+        font-size: 20px;
+    }
+    h1 {
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+    }
+    input, select {
+        width: 100%;
+        font-size: 20px;
+    }
+}
+@media (min-width: 600px) {
+    p {
+        font-size: 20px;
+    }
+    h1 {
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+    }
+    input, select {
+        width: 100%;
+        font-size: 20px;
+    }
+}
+@media (max-width: 600px) {
+    p {
+        font-size: 20px;
+    }
+    h1 {
+        justify-content: center;
+        align-content: center;
+        width: 100%;
+    }
+    input, select {
+        width: 100%;
+        font-size: 20px;
+    }
+}
