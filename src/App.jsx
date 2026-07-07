@@ -32,7 +32,7 @@ const writeStorage = (key, value) => {
   try {
     window.localStorage.setItem(key, value);
   } catch {
-    // Storage can be disabled in private browsing.
+    // El almacenamiento local puede estar bloqueado en navegadores privados.
   }
 };
 
@@ -101,7 +101,7 @@ const getUvInfo = (uvIndex) => {
   return 'Extremo';
 };
 
-const renderConditionMark = (weatherInfo, size = 'hero') => (
+const renderConditionMark = (weatherInfo, size = 'large') => (
   <span
     className={`condition-mark condition-mark-${size} condition-${weatherInfo.tone}`}
     aria-label={weatherInfo.label}
@@ -111,9 +111,9 @@ const renderConditionMark = (weatherInfo, size = 'hero') => (
 );
 
 const LoadingView = () => (
-  <section className="loading-grid" aria-live="polite" aria-label="Cargando clima">
-    <div className="skeleton skeleton-hero" />
-    <div className="skeleton-stack">
+  <section className="loading-state" aria-live="polite" aria-label="Cargando clima">
+    <div className="skeleton skeleton-main" />
+    <div className="skeleton-grid">
       <div className="skeleton" />
       <div className="skeleton" />
       <div className="skeleton" />
@@ -123,9 +123,12 @@ const LoadingView = () => (
 
 const EmptyView = () => (
   <section className="empty-state">
-    <p className="eyebrow">Listo para buscar</p>
-    <h2>Elige una ciudad para ver el clima real.</h2>
-    <p>La app usa datos en vivo de Open-Meteo, sin cuentas ni llaves privadas.</p>
+    <p className="eyebrow">Consulta disponible</p>
+    <h2>Busca una ciudad para iniciar el panel meteorológico.</h2>
+    <p>
+      La información se actualiza desde Open-Meteo y no requiere credenciales ni
+      configuración adicional.
+    </p>
   </section>
 );
 
@@ -170,7 +173,7 @@ function App() {
         setStatus('error');
         setError(
           requestError?.message ||
-            'No pude cargar el clima ahora. Revisa la conexion e intenta de nuevo.',
+            'No fue posible actualizar el pronóstico. Verifica tu conexión e intenta nuevamente.',
         );
       }
     },
@@ -281,7 +284,7 @@ function App() {
 
   const handleUseMyLocation = () => {
     if (!navigator.geolocation) {
-      setError('Tu navegador no permite geolocalizacion.');
+      setError('Tu navegador no permite usar geolocalización.');
       return;
     }
 
@@ -299,7 +302,7 @@ function App() {
       },
       () => {
         setGeoLoading(false);
-        setError('No pude acceder a tu ubicacion. Puedes buscar la ciudad manualmente.');
+        setError('No fue posible acceder a tu ubicación. Puedes buscar la ciudad manualmente.');
       },
       {
         enableHighAccuracy: true,
@@ -323,51 +326,51 @@ function App() {
 
     return [
       {
-        label: 'Sensacion',
+        label: 'Sensación térmica',
         value: formatTemp(current.apparent_temperature),
         detail:
           Math.abs(current.apparent_temperature - current.temperature_2m) < 2
-            ? 'Muy cerca de la temperatura real'
-            : 'El cuerpo lo percibe diferente',
+            ? 'Similar a la temperatura real'
+            : 'La percepción difiere del registro',
       },
       {
         label: 'Humedad',
         value: `${current.relative_humidity_2m ?? '--'}%`,
         detail:
           current.relative_humidity_2m >= 70
-            ? 'Ambiente cargado'
-            : 'Ambiente manejable',
+            ? 'Ambiente con alta humedad'
+            : 'Humedad en rango manejable',
       },
       {
         label: 'Viento',
         value: formatWind(current.wind_speed_10m),
-        detail: `${getWindDirection(current.wind_direction_10m)} con rafagas de ${formatWind(
+        detail: `${getWindDirection(current.wind_direction_10m)} con ráfagas de ${formatWind(
           current.wind_gusts_10m,
         )}`,
       },
       {
-        label: 'Presion',
+        label: 'Presión',
         value: `${Math.round(current.pressure_msl ?? 0)} hPa`,
-        detail: 'Nivel medio del mar',
+        detail: 'Medida a nivel medio del mar',
       },
       {
-        label: 'Nubes',
+        label: 'Nubosidad',
         value: `${current.cloud_cover ?? '--'}%`,
-        detail: current.cloud_cover > 65 ? 'Cielo bastante cubierto' : 'Cielo abierto',
+        detail: current.cloud_cover > 65 ? 'Cielo mayormente cubierto' : 'Cielo parcialmente abierto',
       },
       {
-        label: 'Lluvia ahora',
+        label: 'Precipitación',
         value: `${current.precipitation ?? 0} mm`,
         detail:
-          current.precipitation > 0 ? 'Hay precipitacion activa' : 'Sin lluvia registrada',
+          current.precipitation > 0 ? 'Registro activo de lluvia' : 'Sin lluvia registrada',
       },
       {
-        label: 'Indice UV',
+        label: 'Índice UV',
         value: Math.round(today?.uv_index_max ?? weather?.airQuality?.uvIndex ?? 0),
         detail: getUvInfo(today?.uv_index_max ?? weather?.airQuality?.uvIndex),
       },
       {
-        label: 'Aire',
+        label: 'Calidad del aire',
         value: weather?.airQuality?.usAqi ?? '--',
         detail: aqiInfo.label,
       },
@@ -386,24 +389,24 @@ function App() {
 
     return [
       {
-        title: rainProbability >= 50 ? 'Lleva paraguas' : 'Paraguas opcional',
+        title: rainProbability >= 50 ? 'Planifica con cobertura' : 'Operación sin lluvia crítica',
         value: `${rainProbability}%`,
         detail: nextRainHour
-          ? `Mayor riesgo desde las ${formatHour(nextRainHour.time)}`
-          : 'Sin bloque de lluvia fuerte en las proximas horas',
+          ? `Mayor probabilidad desde las ${formatHour(nextRainHour.time)}`
+          : 'Sin bloque de lluvia relevante en las próximas horas',
       },
       {
-        title: highUv ? 'Proteccion solar' : 'UV controlado',
+        title: highUv ? 'Protección solar recomendada' : 'Radiación bajo control',
         value: getUvInfo(today.uv_index_max),
-        detail: `Maximo UV estimado: ${Math.round(today.uv_index_max ?? 0)}`,
+        detail: `Índice UV máximo estimado: ${Math.round(today.uv_index_max ?? 0)}`,
       },
       {
-        title: strongWind ? 'Cuidado con el viento' : 'Viento estable',
+        title: strongWind ? 'Atención a ráfagas' : 'Viento estable',
         value: formatWind(current.wind_gusts_10m),
-        detail: `Direccion dominante ${getWindDirection(current.wind_direction_10m)}`,
+        detail: `Dirección dominante ${getWindDirection(current.wind_direction_10m)}`,
       },
       {
-        title: 'Amanecer y atardecer',
+        title: 'Ventana de luz natural',
         value: `${formatHour(today.sunrise)} / ${formatHour(today.sunset)}`,
         detail: `Zona horaria: ${weather.timezoneAbbreviation || weather.timezone}`,
       },
@@ -435,34 +438,44 @@ function App() {
     setUnit((currentUnit) => (currentUnit === 'celsius' ? 'fahrenheit' : 'celsius'));
   };
 
+  const keyFacts = current
+    ? [
+        {
+          label: 'Sensación',
+          value: formatTemp(current.apparent_temperature),
+        },
+        {
+          label: 'Humedad',
+          value: `${current.relative_humidity_2m ?? '--'}%`,
+        },
+        {
+          label: 'Viento',
+          value: formatWind(current.wind_speed_10m),
+        },
+      ]
+    : [];
+
   return (
     <main className={`app-shell ${theme}`}>
       <div className="app-container">
-        <header className="app-header">
-          <div className="brand-block">
-            <div className="brand-row">
-              <span className="brand-mark" aria-hidden="true">
-                CM
-              </span>
-              <div>
-                <p className="eyebrow">Clima en vivo</p>
-                <h1>Clima Maestro</h1>
-              </div>
-            </div>
-            <p className="header-copy">
-              Pronostico por hora, 7 dias, calidad del aire y recomendaciones utiles
-              para decidir rapido.
-            </p>
-            <div className="status-row" aria-label="Estado de datos">
-              <span>Datos Open-Meteo</span>
-              <span>Sin API key</span>
-              <span>{status === 'loading' ? 'Actualizando' : 'Operativo'}</span>
+        <header className="topbar">
+          <div className="brand-area">
+            <span className="brand-logo" aria-hidden="true">
+              MP
+            </span>
+            <div>
+              <p className="eyebrow">MeteoPanel</p>
+              <h1>Monitoreo meteorológico en tiempo real</h1>
+              <p>
+                Pronóstico, calidad del aire y recomendaciones operativas en una
+                interfaz clara para tomar decisiones diarias.
+              </p>
             </div>
           </div>
 
-          <div className="header-actions">
-            <button className="ghost-button" type="button" onClick={toggleUnit}>
-              {unit === 'celsius' ? '\u00b0C' : '\u00b0F'}
+          <div className="topbar-actions">
+            <button className="secondary-button" type="button" onClick={toggleUnit}>
+              {unit === 'celsius' ? 'Mostrar °F' : 'Mostrar °C'}
             </button>
             <button
               className="primary-button"
@@ -470,31 +483,37 @@ function App() {
               onClick={handleUseMyLocation}
               disabled={geoLoading}
             >
-              {geoLoading ? 'Ubicando...' : 'Usar mi ubicacion'}
+              {geoLoading ? 'Detectando ubicación' : 'Usar mi ubicación'}
             </button>
           </div>
         </header>
 
-        <section className="control-panel" aria-label="Buscar clima por ciudad">
+        <section className="search-panel" aria-label="Consulta meteorológica">
+          <div className="search-intro">
+            <p className="eyebrow">Consulta</p>
+            <h2>Selecciona una ubicación</h2>
+            <p>Busca cualquier ciudad o utiliza una de las ubicaciones sugeridas.</p>
+          </div>
+
           <form className="search-form" onSubmit={handleSubmit}>
-            <label htmlFor="city-search">Ciudad</label>
+            <label htmlFor="city-search">Ciudad o país</label>
             <div className="search-row">
               <input
                 id="city-search"
                 type="search"
                 value={query}
-                placeholder="Busca cualquier ciudad del mundo"
+                placeholder="Ej. Santo Domingo, Madrid, Tokio"
                 autoComplete="off"
                 onChange={(event) => setQuery(event.target.value)}
               />
               <button className="primary-button" type="submit" disabled={status === 'loading'}>
-                {status === 'loading' ? 'Buscando...' : 'Buscar'}
+                {status === 'loading' ? 'Consultando' : 'Consultar'}
               </button>
             </div>
 
             {(suggestions.length > 0 || isSuggesting) && (
               <div className="suggestions" role="listbox">
-                {isSuggesting && <span className="suggestion-muted">Buscando ciudades...</span>}
+                {isSuggesting && <span className="suggestion-muted">Buscando ubicaciones...</span>}
                 {suggestions.map((place) => (
                   <button
                     key={`${place.id}-${place.latitude}-${place.longitude}`}
@@ -509,7 +528,7 @@ function App() {
             )}
           </form>
 
-          <div className="quick-row" aria-label="Ciudades sugeridas">
+          <div className="quick-row" aria-label="Accesos rápidos">
             {QUICK_CITIES.map((city) => (
               <button key={city} type="button" onClick={() => loadCity(city)}>
                 {city}
@@ -525,48 +544,71 @@ function App() {
 
         {weather && current && (
           <>
-            <section className="current-grid">
-              <article className="current-card">
-                <div className="current-top">
+            <section className="dashboard-grid">
+              <article className="current-panel">
+                <div className="panel-header">
                   <div>
-                    <p className="eyebrow">Ahora en</p>
+                    <p className="eyebrow">Condiciones actuales</p>
                     <h2>{displayPlaceName}</h2>
                     {weather.place.label !== displayPlaceName && (
                       <p className="place-detail">{weather.place.label}</p>
                     )}
                     <p className="updated-at">
-                      Actualizado {formatDateTime(current.time)} -{' '}
+                      Actualizado {formatDateTime(current.time)} ·{' '}
                       {weather.timezoneAbbreviation || weather.timezone}
                     </p>
                   </div>
-                  <div className="weather-symbol">{renderConditionMark(weatherInfo)}</div>
-                </div>
 
-                <div className="temperature-block">
-                  <span>{formatTemp(current.temperature_2m)}</span>
-                  <div>
-                    <strong>{weatherInfo.label}</strong>
-                    <p>Se siente como {formatTemp(current.apparent_temperature)}</p>
+                  <div className="condition-summary">
+                    {renderConditionMark(weatherInfo)}
+                    <span>{weatherInfo.label}</span>
                   </div>
                 </div>
 
-                <div className="sun-row">
+                <div className="current-body">
+                  <div className="temperature-stack">
+                    <span>{formatTemp(current.temperature_2m)}</span>
+                    <p>Se percibe como {formatTemp(current.apparent_temperature)}</p>
+                  </div>
+
+                  <div className="fact-grid">
+                    {keyFacts.map((fact) => (
+                      <div className="fact-card" key={fact.label}>
+                        <span>{fact.label}</span>
+                        <strong>{fact.value}</strong>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="time-strip">
                   <span>Amanecer {formatHour(today?.sunrise)}</span>
                   <span>Atardecer {formatHour(today?.sunset)}</span>
+                  <span>Dirección {getWindDirection(current.wind_direction_10m)}</span>
                 </div>
               </article>
 
-              <aside className="decision-card">
+              <aside className="advisory-panel">
                 <div>
-                  <p className="eyebrow">Decision rapida</p>
+                  <p className="eyebrow">Recomendación</p>
                   <h3>{insights[0]?.title}</h3>
                   <p>{insights[0]?.detail}</p>
                 </div>
 
-                <div className="air-card">
-                  <span>Calidad del aire</span>
-                  <strong>{weather.airQuality?.usAqi ?? '--'} AQI</strong>
-                  <small className={`tone-${aqiInfo.tone}`}>{aqiInfo.label}</small>
+                <div className="advisory-list">
+                  <div>
+                    <span>Riesgo de lluvia</span>
+                    <strong>{today?.precipitation_probability_max ?? 0}%</strong>
+                  </div>
+                  <div>
+                    <span>Índice UV</span>
+                    <strong>{getUvInfo(today?.uv_index_max)}</strong>
+                  </div>
+                  <div>
+                    <span>Calidad del aire</span>
+                    <strong>{weather.airQuality?.usAqi ?? '--'} AQI</strong>
+                    <small className={`tone-${aqiInfo.tone}`}>{aqiInfo.label}</small>
+                  </div>
                 </div>
 
                 <button
@@ -574,12 +616,12 @@ function App() {
                   type="button"
                   onClick={toggleFavorite}
                 >
-                  {isFavorite ? 'Favorito guardado' : 'Guardar favorito'}
+                  {isFavorite ? 'Ubicación guardada' : 'Guardar ubicación'}
                 </button>
               </aside>
             </section>
 
-            <section className="metrics-grid" aria-label="Metricas actuales">
+            <section className="metrics-grid" aria-label="Indicadores meteorológicos">
               {metrics.map((metric) => (
                 <article className="metric-card" key={metric.label}>
                   <span>{metric.label}</span>
@@ -589,70 +631,72 @@ function App() {
               ))}
             </section>
 
-            <section className="section-panel">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow">Proximas horas</p>
-                  <h2>Pronostico de 24 horas</h2>
+            <section className="content-grid">
+              <article className="forecast-panel">
+                <div className="section-heading">
+                  <div>
+                    <p className="eyebrow">Próximas 24 horas</p>
+                    <h2>Evolución horaria</h2>
+                  </div>
+                  <span>Temperatura, lluvia y viento</span>
                 </div>
-                <span>Probabilidad de lluvia y viento</span>
-              </div>
 
-              <div className="hourly-strip">
-                {weather.hourly.slice(0, 24).map((hour) => {
-                  const hourInfo = getWeatherInfo(hour.weather_code);
+                <div className="hourly-strip">
+                  {weather.hourly.slice(0, 24).map((hour) => {
+                    const hourInfo = getWeatherInfo(hour.weather_code);
 
-                  return (
-                    <article className="hour-card" key={hour.time}>
-                      <span>{formatHour(hour.time)}</span>
-                      <strong>{formatTemp(hour.temperature_2m)}</strong>
-                      <div>{renderConditionMark(hourInfo, 'small')}</div>
-                      <small>{hour.precipitation_probability ?? 0}% lluvia</small>
-                      <small>{formatWind(hour.wind_speed_10m)}</small>
-                    </article>
-                  );
-                })}
-              </div>
+                    return (
+                      <article className="hour-card" key={hour.time}>
+                        <span>{formatHour(hour.time)}</span>
+                        <strong>{formatTemp(hour.temperature_2m)}</strong>
+                        <div>{renderConditionMark(hourInfo, 'small')}</div>
+                        <small>{hour.precipitation_probability ?? 0}% lluvia</small>
+                        <small>{formatWind(hour.wind_speed_10m)}</small>
+                      </article>
+                    );
+                  })}
+                </div>
+              </article>
+
+              <article className="forecast-panel">
+                <div className="section-heading">
+                  <div>
+                    <p className="eyebrow">Semana</p>
+                    <h2>Pronóstico extendido</h2>
+                  </div>
+                  <span>Máximas, mínimas y lluvia</span>
+                </div>
+
+                <div className="forecast-grid">
+                  {weather.daily.map((day) => {
+                    const dayInfo = getWeatherInfo(day.weather_code);
+                    const rain = day.precipitation_probability_max ?? 0;
+
+                    return (
+                      <article className="forecast-card" key={day.time}>
+                        <div>
+                          <span>{formatDay(day.time)}</span>
+                          <strong>{dayInfo.label}</strong>
+                        </div>
+                        <div className="forecast-icon" aria-hidden="true">
+                          {renderConditionMark(dayInfo, 'medium')}
+                        </div>
+                        <div className="forecast-temp">
+                          <strong>{formatTemp(day.temperature_2m_max)}</strong>
+                          <span>{formatTemp(day.temperature_2m_min)}</span>
+                        </div>
+                        <div className="rain-track">
+                          <span style={{ width: `${rain}%` }} />
+                        </div>
+                        <small>{rain}% lluvia</small>
+                      </article>
+                    );
+                  })}
+                </div>
+              </article>
             </section>
 
-            <section className="section-panel">
-              <div className="section-heading">
-                <div>
-                  <p className="eyebrow">Semana</p>
-                  <h2>7 dias de pronostico</h2>
-                </div>
-                <span>Maximas, minimas y lluvia</span>
-              </div>
-
-              <div className="forecast-grid">
-                {weather.daily.map((day) => {
-                  const dayInfo = getWeatherInfo(day.weather_code);
-                  const rain = day.precipitation_probability_max ?? 0;
-
-                  return (
-                    <article className="forecast-card" key={day.time}>
-                      <div>
-                        <span>{formatDay(day.time)}</span>
-                        <strong>{dayInfo.label}</strong>
-                      </div>
-                      <div className="forecast-icon" aria-hidden="true">
-                        {renderConditionMark(dayInfo, 'medium')}
-                      </div>
-                      <div className="forecast-temp">
-                        <strong>{formatTemp(day.temperature_2m_max)}</strong>
-                        <span>{formatTemp(day.temperature_2m_min)}</span>
-                      </div>
-                      <div className="rain-track">
-                        <span style={{ width: `${rain}%` }} />
-                      </div>
-                      <small>{rain}% lluvia</small>
-                    </article>
-                  );
-                })}
-              </div>
-            </section>
-
-            <section className="insight-grid" aria-label="Recomendaciones inteligentes">
+            <section className="insight-grid" aria-label="Recomendaciones operativas">
               {insights.map((insight) => (
                 <article className="insight-card" key={insight.title}>
                   <span>{insight.title}</span>
@@ -663,11 +707,11 @@ function App() {
             </section>
 
             {favorites.length > 0 && (
-              <section className="favorites-panel" aria-label="Ciudades favoritas">
+              <section className="favorites-panel" aria-label="Ubicaciones guardadas">
                 <div className="section-heading">
                   <div>
-                    <p className="eyebrow">Favoritos</p>
-                    <h2>Tus ciudades</h2>
+                    <p className="eyebrow">Guardadas</p>
+                    <h2>Ubicaciones frecuentes</h2>
                   </div>
                 </div>
 
@@ -678,7 +722,7 @@ function App() {
                       type="button"
                       onClick={() => loadPlace(place)}
                     >
-                      {place.label}
+                      {getDisplayPlaceName(place)}
                     </button>
                   ))}
                 </div>

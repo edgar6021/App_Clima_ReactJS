@@ -1,26 +1,36 @@
-# App Clima
+# MeteoPanel
 
-Aplicacion de clima en React + Vite lista para desplegar en Vercel.
+Aplicación meteorológica en React + Vite con pronóstico en tiempo real, calidad del aire, recomendaciones operativas, búsqueda de ciudades, geolocalización y ubicaciones guardadas.
 
-## Scripts
+## Stack
+
+- React 18
+- Vite
+- Open-Meteo Forecast API
+- Open-Meteo Geocoding API
+- Open-Meteo Air Quality API
+
+## Desarrollo local
 
 ```bash
 npm install
 npm run dev
-npm run build
-npm run preview
 ```
 
-## Deploy en Vercel
+## Validación
 
-Configuracion recomendada:
+```bash
+npm run lint
+npm run build
+```
 
-- Framework Preset: `Vite`
+## Despliegue en Vercel
+
+El proyecto incluye `vercel.json` con configuración explícita para Vite:
+
+- Framework: `vite`
 - Install Command: `npm install`
 - Build Command: `npm run build`
 - Output Directory: `dist`
 
-El archivo `vercel.json` ya define el build, el directorio de salida y el rewrite a `index.html` para que la app funcione como SPA.
-Tambien fuerza el preset `vite` para evitar que Vercel use por error el preset `services`.
-
-No necesitas variables de entorno: la app usa Open-Meteo sin API key.
+No se requieren variables de entorno. La aplicación consume Open-Meteo sin API key.

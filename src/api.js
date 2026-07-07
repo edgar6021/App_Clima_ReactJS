@@ -39,38 +39,38 @@ const DAILY_FIELDS = [
 ];
 
 export const WEATHER_CODES = {
-  0: { label: 'Despejado', icon: '☀️', tone: 'sunny' },
-  1: { label: 'Mayormente despejado', icon: '🌤️', tone: 'sunny' },
-  2: { label: 'Parcialmente nublado', icon: '⛅', tone: 'cloudy' },
-  3: { label: 'Nublado', icon: '☁️', tone: 'cloudy' },
-  45: { label: 'Niebla', icon: '🌫️', tone: 'fog' },
-  48: { label: 'Niebla helada', icon: '🌫️', tone: 'fog' },
-  51: { label: 'Llovizna ligera', icon: '🌦️', tone: 'rain' },
-  53: { label: 'Llovizna', icon: '🌦️', tone: 'rain' },
-  55: { label: 'Llovizna intensa', icon: '🌧️', tone: 'rain' },
-  56: { label: 'Llovizna helada', icon: '🌧️', tone: 'rain' },
-  57: { label: 'Llovizna helada intensa', icon: '🌧️', tone: 'rain' },
-  61: { label: 'Lluvia ligera', icon: '🌧️', tone: 'rain' },
-  63: { label: 'Lluvia', icon: '🌧️', tone: 'rain' },
-  65: { label: 'Lluvia intensa', icon: '🌧️', tone: 'rain' },
-  66: { label: 'Lluvia helada', icon: '🌧️', tone: 'rain' },
-  67: { label: 'Lluvia helada intensa', icon: '🌧️', tone: 'rain' },
-  71: { label: 'Nieve ligera', icon: '🌨️', tone: 'snow' },
-  73: { label: 'Nieve', icon: '🌨️', tone: 'snow' },
-  75: { label: 'Nieve intensa', icon: '❄️', tone: 'snow' },
-  77: { label: 'Granulos de nieve', icon: '❄️', tone: 'snow' },
-  80: { label: 'Chubascos ligeros', icon: '🌦️', tone: 'rain' },
-  81: { label: 'Chubascos', icon: '🌧️', tone: 'rain' },
-  82: { label: 'Chubascos intensos', icon: '⛈️', tone: 'storm' },
-  85: { label: 'Chubascos de nieve', icon: '🌨️', tone: 'snow' },
-  86: { label: 'Chubascos de nieve intensos', icon: '❄️', tone: 'snow' },
-  95: { label: 'Tormenta', icon: '⛈️', tone: 'storm' },
-  96: { label: 'Tormenta con granizo', icon: '⛈️', tone: 'storm' },
-  99: { label: 'Tormenta severa con granizo', icon: '⛈️', tone: 'storm' },
+  0: { label: 'Despejado', tone: 'sunny' },
+  1: { label: 'Mayormente despejado', tone: 'sunny' },
+  2: { label: 'Parcialmente nublado', tone: 'cloudy' },
+  3: { label: 'Nublado', tone: 'cloudy' },
+  45: { label: 'Niebla', tone: 'fog' },
+  48: { label: 'Niebla helada', tone: 'fog' },
+  51: { label: 'Llovizna ligera', tone: 'rain' },
+  53: { label: 'Llovizna', tone: 'rain' },
+  55: { label: 'Llovizna intensa', tone: 'rain' },
+  56: { label: 'Llovizna helada', tone: 'rain' },
+  57: { label: 'Llovizna helada intensa', tone: 'rain' },
+  61: { label: 'Lluvia ligera', tone: 'rain' },
+  63: { label: 'Lluvia', tone: 'rain' },
+  65: { label: 'Lluvia intensa', tone: 'rain' },
+  66: { label: 'Lluvia helada', tone: 'rain' },
+  67: { label: 'Lluvia helada intensa', tone: 'rain' },
+  71: { label: 'Nieve ligera', tone: 'snow' },
+  73: { label: 'Nieve', tone: 'snow' },
+  75: { label: 'Nieve intensa', tone: 'snow' },
+  77: { label: 'Gránulos de nieve', tone: 'snow' },
+  80: { label: 'Chubascos ligeros', tone: 'rain' },
+  81: { label: 'Chubascos', tone: 'rain' },
+  82: { label: 'Chubascos intensos', tone: 'storm' },
+  85: { label: 'Chubascos de nieve', tone: 'snow' },
+  86: { label: 'Chubascos de nieve intensos', tone: 'snow' },
+  95: { label: 'Tormenta', tone: 'storm' },
+  96: { label: 'Tormenta con granizo', tone: 'storm' },
+  99: { label: 'Tormenta severa con granizo', tone: 'storm' },
 };
 
 export const getWeatherInfo = (code) =>
-  WEATHER_CODES[code] ?? { label: 'Clima variable', icon: '🌡️', tone: 'default' };
+  WEATHER_CODES[code] ?? { label: 'Clima variable', tone: 'default' };
 
 export const getAqiInfo = (aqi) => {
   if (aqi == null) return { label: 'Sin datos', tone: 'muted' };
@@ -98,7 +98,7 @@ const fetchJson = async (url, signal) => {
   const data = await response.json();
 
   if (!response.ok || data.error) {
-    throw new Error(data.reason || 'No se pudo obtener informacion del clima.');
+    throw new Error(data.reason || 'No se pudo obtener información meteorológica.');
   }
 
   return data;
@@ -234,7 +234,7 @@ export const getForecastForCity = async (city, signal) => {
   const [place] = await getCitySuggestions(city, signal);
 
   if (!place) {
-    throw new Error(`No encontre resultados para "${city}". Prueba con otra ciudad.`);
+    throw new Error(`No encontré resultados para "${city}". Prueba con otra ciudad.`);
   }
 
   return getForecastForPlace(place, signal);
@@ -243,10 +243,10 @@ export const getForecastForCity = async (city, signal) => {
 export const getForecastForCoordinates = async (latitude, longitude, signal) => {
   const place = {
     id: `geo-${Number(latitude).toFixed(4)},${Number(longitude).toFixed(4)}`,
-    name: 'Mi ubicacion',
+    name: 'Mi ubicación',
     latitude,
     longitude,
-    label: 'Mi ubicacion actual',
+    label: 'Mi ubicación actual',
   };
 
   return getForecastForPlace(place, signal);
