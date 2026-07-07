@@ -1,29 +1,26 @@
 .app-shell {
-  --page: #f3f8f6;
-  --surface: rgba(255, 255, 255, 0.94);
+  --page: #ffffff;
+  --surface: #ffffff;
   --surface-solid: #ffffff;
-  --surface-subtle: #edf6f3;
-  --text: #10231f;
-  --muted: #65766f;
-  --line: #dce9e4;
-  --line-strong: #c6d9d2;
-  --accent: #0f766e;
-  --accent-dark: #0a514c;
-  --accent-soft: #dff3ef;
+  --surface-subtle: #f6faf8;
+  --text: #111827;
+  --muted: #667085;
+  --line: #e6ecea;
+  --line-strong: #cfdad6;
+  --accent: #0e9384;
+  --accent-dark: #0b635a;
+  --accent-soft: #e5f8f5;
   --warning: #bf7b1f;
   --danger: #b42318;
   --hero-start: #0f3f38;
   --hero-end: #168073;
   --hero-text: #f8fffc;
-  --shadow-sm: 0 8px 24px rgba(21, 57, 49, 0.08);
-  --shadow-md: 0 18px 54px rgba(21, 57, 49, 0.14);
+  --shadow-sm: 0 10px 28px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 18px 44px rgba(16, 24, 40, 0.12);
   min-height: 100vh;
-  padding: 28px;
+  padding: 22px;
   color: var(--text);
-  background:
-    radial-gradient(circle at 8% 0%, rgba(15, 118, 110, 0.16), transparent 32%),
-    radial-gradient(circle at 92% 4%, rgba(242, 201, 76, 0.2), transparent 28%),
-    linear-gradient(180deg, #f8fbfa 0%, var(--page) 48%, #eaf3ef 100%);
+  background: var(--page);
 }
 
 .theme-cloudy {
@@ -45,24 +42,12 @@
 
 .theme-storm,
 .theme-night {
-  --page: #111916;
-  --surface: rgba(24, 34, 30, 0.94);
-  --surface-solid: #18221e;
-  --surface-subtle: #1f302b;
-  --text: #f5fbf8;
-  --muted: #b6c8c1;
-  --line: #334941;
-  --line-strong: #45645a;
-  --accent: #5dd6c6;
-  --accent-dark: #93eadf;
-  --accent-soft: rgba(93, 214, 198, 0.14);
-  --hero-start: #0b1714;
+  --accent: #0e9384;
+  --accent-dark: #0b635a;
+  --accent-soft: #e5f8f5;
+  --hero-start: #111827;
   --hero-end: #16483f;
-  --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.28);
-  --shadow-md: 0 18px 54px rgba(0, 0, 0, 0.38);
-  background:
-    radial-gradient(circle at 12% 0%, rgba(93, 214, 198, 0.14), transparent 32%),
-    linear-gradient(180deg, #0f1714 0%, var(--page) 100%);
+  background: var(--page);
 }
 
 .theme-snow {
@@ -74,10 +59,10 @@
 }
 
 .app-container {
-  width: min(1240px, 100%);
+  width: min(1120px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 18px;
+  gap: 14px;
 }
 
 .app-header,
@@ -89,7 +74,7 @@
 .favorites-panel,
 .empty-state {
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--surface);
   box-shadow: var(--shadow-sm);
 }
@@ -98,14 +83,14 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 24px;
-  padding: 22px;
+  gap: 20px;
+  padding: 18px;
 }
 
 .brand-block {
   display: grid;
-  gap: 12px;
-  max-width: 720px;
+  gap: 10px;
+  max-width: 680px;
 }
 
 .brand-row {
@@ -115,11 +100,11 @@
 }
 
 .brand-mark {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   display: inline-grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: 12px;
   color: #ffffff;
   background: linear-gradient(135deg, var(--accent-dark), var(--accent));
   box-shadow: 0 10px 24px rgba(15, 118, 110, 0.22);
@@ -137,7 +122,7 @@
 
 .app-header h1 {
   color: var(--text);
-  font-size: clamp(2rem, 4vw, 3.3rem);
+  font-size: clamp(1.9rem, 3.2vw, 2.65rem);
   letter-spacing: -0.02em;
 }
 
@@ -178,8 +163,8 @@
 .sun-row span {
   display: inline-flex;
   align-items: center;
-  min-height: 30px;
-  padding: 6px 10px;
+  min-height: 28px;
+  padding: 5px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--muted);
@@ -203,8 +188,8 @@ button {
 .favorite-button,
 .favorite-list button,
 .suggestions button {
-  min-height: 44px;
-  border-radius: 8px;
+  min-height: 42px;
+  border-radius: 10px;
   cursor: pointer;
   transition:
     transform 160ms ease,
@@ -250,8 +235,8 @@ button {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
-  gap: 16px;
-  padding: 18px;
+  gap: 14px;
+  padding: 16px;
 }
 
 .search-form {
@@ -272,11 +257,11 @@ button {
 .search-row input {
   width: 100%;
   min-width: 0;
-  min-height: 52px;
+  min-height: 48px;
   padding: 0 16px;
   color: var(--text);
   border: 1px solid var(--line-strong);
-  border-radius: 8px;
+  border-radius: 10px;
   outline: none;
   background: var(--surface-solid);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
@@ -301,7 +286,7 @@ button {
   overflow: auto;
   padding: 8px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--surface-solid);
   box-shadow: var(--shadow-md);
 }
@@ -335,7 +320,7 @@ button {
 .notice {
   padding: 14px 16px;
   border: 1px solid rgba(180, 35, 24, 0.24);
-  border-radius: 8px;
+  border-radius: 12px;
   color: var(--danger);
   background: rgba(180, 35, 24, 0.08);
   font-weight: 720;
@@ -343,14 +328,14 @@ button {
 
 .current-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 0.72fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1.38fr) minmax(280px, 0.72fr);
+  gap: 14px;
 }
 
 .current-card,
 .decision-card {
-  min-height: 360px;
-  padding: 24px;
+  min-height: 300px;
+  padding: 20px;
 }
 
 .current-card {
@@ -359,9 +344,9 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 28px;
+  gap: 22px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
+  border-radius: 16px;
   color: var(--hero-text);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.13), transparent 34%),
@@ -372,10 +357,10 @@ button {
 .current-card::after {
   content: "";
   position: absolute;
-  right: -110px;
+  right: -95px;
   bottom: -130px;
-  width: 340px;
-  height: 340px;
+  width: 300px;
+  height: 300px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
 }
@@ -399,7 +384,7 @@ button {
 .current-card h2 {
   margin-bottom: 10px;
   color: #ffffff;
-  font-size: clamp(1.8rem, 4vw, 2.55rem);
+  font-size: clamp(1.65rem, 3.4vw, 2.25rem);
   letter-spacing: -0.02em;
 }
 
@@ -441,18 +426,18 @@ button {
 }
 
 .condition-mark-hero {
-  width: 104px;
-  height: 104px;
+  width: 86px;
+  height: 86px;
 }
 
 .condition-mark-medium {
-  width: 42px;
-  height: 42px;
+  width: 36px;
+  height: 36px;
 }
 
 .condition-mark-small {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
 }
 
 .condition-cloudy {
@@ -480,12 +465,12 @@ button {
 .temperature-block {
   display: flex;
   align-items: flex-end;
-  gap: 22px;
+  gap: 18px;
   flex-wrap: wrap;
 }
 
 .temperature-block > span {
-  font-size: clamp(4.6rem, 10vw, 7.4rem);
+  font-size: clamp(3.8rem, 8vw, 6rem);
   font-weight: 950;
   line-height: 0.88;
   letter-spacing: -0.07em;
@@ -495,7 +480,7 @@ button {
   display: block;
   margin-bottom: 8px;
   color: #ffffff;
-  font-size: 1.35rem;
+  font-size: 1.18rem;
 }
 
 .sun-row {
@@ -510,13 +495,13 @@ button {
 
 .decision-card {
   display: grid;
-  gap: 18px;
+  gap: 14px;
   align-content: space-between;
 }
 
 .decision-card h3 {
   margin: 0 0 10px;
-  font-size: clamp(1.65rem, 3vw, 2.1rem);
+  font-size: clamp(1.45rem, 2.5vw, 1.85rem);
   letter-spacing: -0.02em;
 }
 
@@ -525,7 +510,7 @@ button {
   gap: 4px;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--surface-subtle);
 }
 
@@ -540,7 +525,7 @@ button {
 }
 
 .air-card strong {
-  font-size: 2rem;
+  font-size: 1.75rem;
   line-height: 1;
 }
 
@@ -562,14 +547,14 @@ button {
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .metric-card,
 .insight-card {
   position: relative;
-  min-height: 138px;
-  padding: 18px;
+  min-height: 118px;
+  padding: 16px;
 }
 
 .metric-card::before,
@@ -586,19 +571,19 @@ button {
 
 .metric-card {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .metric-card strong,
 .insight-card strong {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   line-height: 1;
 }
 
 .section-panel,
 .favorites-panel,
 .empty-state {
-  padding: 20px;
+  padding: 18px;
 }
 
 .section-heading {
@@ -606,18 +591,18 @@ button {
   align-items: flex-end;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .section-heading h2 {
-  font-size: clamp(1.45rem, 3vw, 1.9rem);
+  font-size: clamp(1.3rem, 2.6vw, 1.65rem);
   letter-spacing: -0.02em;
 }
 
 .hourly-strip {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 120px;
+  grid-auto-columns: 108px;
   gap: 10px;
   overflow-x: auto;
   padding-bottom: 8px;
@@ -641,37 +626,37 @@ button {
 .hour-card {
   display: grid;
   gap: 8px;
-  min-height: 164px;
-  padding: 14px;
+  min-height: 148px;
+  padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--surface-solid);
   scroll-snap-align: start;
 }
 
 .hour-card div,
 .forecast-icon {
-  min-height: 42px;
+  min-height: 36px;
   display: flex;
   align-items: center;
 }
 
 .hour-card strong {
-  font-size: 1.35rem;
+  font-size: 1.2rem;
 }
 
 .forecast-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(152px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+  gap: 10px;
 }
 
 .forecast-card {
   display: grid;
-  gap: 12px;
-  padding: 14px;
+  gap: 10px;
+  padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background: var(--surface-solid);
 }
 
@@ -681,7 +666,7 @@ button {
 }
 
 .forecast-card > div:first-child strong {
-  min-height: 42px;
+  min-height: 38px;
   margin-top: 4px;
   color: var(--text);
   line-height: 1.2;
@@ -696,7 +681,7 @@ button {
 
 .forecast-temp strong {
   min-height: auto;
-  font-size: 1.45rem;
+  font-size: 1.25rem;
 }
 
 .rain-track {
@@ -717,7 +702,7 @@ button {
 .insight-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .insight-card {
@@ -752,7 +737,7 @@ button {
 .loading-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.8fr);
-  gap: 18px;
+  gap: 14px;
 }
 
 .skeleton-stack {
@@ -761,9 +746,9 @@ button {
 }
 
 .skeleton {
-  min-height: 140px;
+  min-height: 118px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 12px;
   background:
     linear-gradient(
       100deg,
@@ -776,7 +761,7 @@ button {
 }
 
 .skeleton-hero {
-  min-height: 360px;
+  min-height: 300px;
 }
 
 .empty-state {
@@ -824,7 +809,7 @@ button {
 
 @media (max-width: 640px) {
   .app-shell {
-    padding: 14px;
+    padding: 12px;
   }
 
   .app-header,
