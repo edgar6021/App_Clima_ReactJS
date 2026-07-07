@@ -51,6 +51,18 @@ const readJsonStorage = (key, fallback) => {
 const getPlaceKey = (place) =>
   `${Number(place.latitude).toFixed(3)},${Number(place.longitude).toFixed(3)}`;
 
+const getDisplayPlaceName = (place) => {
+  if (!place) return '';
+
+  const parts = [place.name];
+  const region = place.admin1 && place.admin1 !== place.name ? place.admin1 : '';
+
+  if (region && region.length <= 18) parts.push(region);
+  if (place.country) parts.push(place.country);
+
+  return parts.filter(Boolean).join(', ');
+};
+
 const formatHour = (value) => value?.slice(11, 16) ?? '--:--';
 
 const formatDateTime = (value) => {
@@ -130,10 +142,12 @@ function App() {
     readJsonStorage(STORAGE_KEYS.favorites, []),
   );
   const requestIdRef = useRef(0);
+  const selectedPlaceLabel = weather?.place.label;
+  const selectedPlaceDisplay = getDisplayPlaceName(weather?.place);
 
   const applyWeather = useCallback((data) => {
     setWeather(data);
-    setQuery(data.place.label);
+    setQuery(getDisplayPlaceName(data.place));
     setSuggestions([]);
     setStatus('ready');
     setError('');
@@ -191,7 +205,11 @@ function App() {
   useEffect(() => {
     const text = query.trim();
 
-    if (text.length < 2 || text === weather?.place.label) {
+    if (
+      text.length < 2 ||
+      text === selectedPlaceLabel ||
+      text === selectedPlaceDisplay
+    ) {
       setSuggestions([]);
       setIsSuggesting(false);
       return undefined;
@@ -215,7 +233,7 @@ function App() {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [query, weather?.place.label]);
+  }, [query, selectedPlaceDisplay, selectedPlaceLabel]);
 
   const formatTemp = useCallback(
     (value) => {
@@ -298,6 +316,7 @@ function App() {
   const currentPlaceKey = weather ? getPlaceKey(weather.place) : '';
   const isFavorite = favorites.some((place) => getPlaceKey(place) === currentPlaceKey);
   const theme = current?.is_day === 0 ? 'theme-night' : `theme-${weatherInfo.tone}`;
+  const displayPlaceName = selectedPlaceDisplay;
 
   const metrics = useMemo(() => {
     if (!current) return [];
@@ -511,8 +530,11 @@ function App() {
                 <div className="current-top">
                   <div>
                     <p className="eyebrow">Ahora en</p>
-                    <h2>{weather.place.label}</h2>
-                    <p>
+                    <h2>{displayPlaceName}</h2>
+                    {weather.place.label !== displayPlaceName && (
+                      <p className="place-detail">{weather.place.label}</p>
+                    )}
+                    <p className="updated-at">
                       Actualizado {formatDateTime(current.time)} -{' '}
                       {weather.timezoneAbbreviation || weather.timezone}
                     </p>
