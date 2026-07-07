@@ -21,5 +21,6 @@ Configuracion recomendada:
 - Output Directory: `dist`
 
 El archivo `vercel.json` ya define el build, el directorio de salida y el rewrite a `index.html` para que la app funcione como SPA.
+Tambien fuerza el preset `vite` para evitar que Vercel use por error el preset `services`.
 
 No necesitas variables de entorno: la app usa Open-Meteo sin API key.
