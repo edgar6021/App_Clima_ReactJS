@@ -89,6 +89,15 @@ const getUvInfo = (uvIndex) => {
   return 'Extremo';
 };
 
+const renderConditionMark = (weatherInfo, size = 'hero') => (
+  <span
+    className={`condition-mark condition-mark-${size} condition-${weatherInfo.tone}`}
+    aria-label={weatherInfo.label}
+    role="img"
+    title={weatherInfo.label}
+  />
+);
+
 const LoadingView = () => (
   <section className="loading-grid" aria-live="polite" aria-label="Cargando clima">
     <div className="skeleton skeleton-hero" />
@@ -411,13 +420,25 @@ function App() {
     <main className={`app-shell ${theme}`}>
       <div className="app-container">
         <header className="app-header">
-          <div>
-            <p className="eyebrow">Clima en vivo</p>
-            <h1>Clima Maestro</h1>
-            <p>
+          <div className="brand-block">
+            <div className="brand-row">
+              <span className="brand-mark" aria-hidden="true">
+                CM
+              </span>
+              <div>
+                <p className="eyebrow">Clima en vivo</p>
+                <h1>Clima Maestro</h1>
+              </div>
+            </div>
+            <p className="header-copy">
               Pronostico por hora, 7 dias, calidad del aire y recomendaciones utiles
               para decidir rapido.
             </p>
+            <div className="status-row" aria-label="Estado de datos">
+              <span>Datos Open-Meteo</span>
+              <span>Sin API key</span>
+              <span>{status === 'loading' ? 'Actualizando' : 'Operativo'}</span>
+            </div>
           </div>
 
           <div className="header-actions">
@@ -492,13 +513,11 @@ function App() {
                     <p className="eyebrow">Ahora en</p>
                     <h2>{weather.place.label}</h2>
                     <p>
-                      Actualizado {formatDateTime(current.time)} ·{' '}
+                      Actualizado {formatDateTime(current.time)} -{' '}
                       {weather.timezoneAbbreviation || weather.timezone}
                     </p>
                   </div>
-                  <div className="weather-symbol" aria-hidden="true">
-                    {weatherInfo.icon}
-                  </div>
+                  <div className="weather-symbol">{renderConditionMark(weatherInfo)}</div>
                 </div>
 
                 <div className="temperature-block">
@@ -565,7 +584,7 @@ function App() {
                     <article className="hour-card" key={hour.time}>
                       <span>{formatHour(hour.time)}</span>
                       <strong>{formatTemp(hour.temperature_2m)}</strong>
-                      <div aria-hidden="true">{hourInfo.icon}</div>
+                      <div>{renderConditionMark(hourInfo, 'small')}</div>
                       <small>{hour.precipitation_probability ?? 0}% lluvia</small>
                       <small>{formatWind(hour.wind_speed_10m)}</small>
                     </article>
@@ -595,7 +614,7 @@ function App() {
                         <strong>{dayInfo.label}</strong>
                       </div>
                       <div className="forecast-icon" aria-hidden="true">
-                        {dayInfo.icon}
+                        {renderConditionMark(dayInfo, 'medium')}
                       </div>
                       <div className="forecast-temp">
                         <strong>{formatTemp(day.temperature_2m_max)}</strong>
