@@ -12,13 +12,14 @@
   --accent-soft: #e5f8f5;
   --warning: #bf7b1f;
   --danger: #b42318;
-  --hero-start: #0f3f38;
-  --hero-end: #168073;
-  --hero-text: #f8fffc;
+  --hero-start: #ffffff;
+  --hero-end: #ffffff;
+  --hero-text: #111827;
   --shadow-sm: 0 10px 28px rgba(16, 24, 40, 0.06);
   --shadow-md: 0 18px 44px rgba(16, 24, 40, 0.12);
   min-height: 100vh;
-  padding: 22px;
+  overflow-x: hidden;
+  padding: 18px;
   color: var(--text);
   background: var(--page);
 }
@@ -27,8 +28,8 @@
   --accent: #52766f;
   --accent-dark: #2f554d;
   --accent-soft: #e6eeee;
-  --hero-start: #294a43;
-  --hero-end: #739189;
+  --hero-start: #ffffff;
+  --hero-end: #ffffff;
 }
 
 .theme-rain,
@@ -36,8 +37,8 @@
   --accent: #097a78;
   --accent-dark: #075554;
   --accent-soft: #dff2f0;
-  --hero-start: #0b4c49;
-  --hero-end: #0f8b86;
+  --hero-start: #ffffff;
+  --hero-end: #ffffff;
 }
 
 .theme-storm,
@@ -45,8 +46,8 @@
   --accent: #0e9384;
   --accent-dark: #0b635a;
   --accent-soft: #e5f8f5;
-  --hero-start: #111827;
-  --hero-end: #16483f;
+  --hero-start: #ffffff;
+  --hero-end: #ffffff;
   background: var(--page);
 }
 
@@ -54,12 +55,13 @@
   --accent: #2f7d8a;
   --accent-dark: #245f69;
   --accent-soft: #e2f2f5;
-  --hero-start: #1e5863;
-  --hero-end: #78acb5;
+  --hero-start: #ffffff;
+  --hero-end: #ffffff;
 }
 
 .app-container {
-  width: min(1120px, 100%);
+  width: 100%;
+  max-width: 1080px;
   margin: 0 auto;
   display: grid;
   gap: 14px;
@@ -85,6 +87,10 @@
   justify-content: space-between;
   gap: 20px;
   padding: 18px;
+}
+
+.app-header > * {
+  min-width: 0;
 }
 
 .brand-block {
@@ -233,8 +239,8 @@ button {
 
 .control-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: 14px;
   padding: 16px;
 }
@@ -345,13 +351,21 @@ button {
   flex-direction: column;
   justify-content: space-between;
   gap: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--line);
   border-radius: 16px;
   color: var(--hero-text);
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.13), transparent 34%),
+    linear-gradient(90deg, var(--accent-soft), transparent 44%),
     linear-gradient(135deg, var(--hero-start), var(--hero-end));
   box-shadow: var(--shadow-md);
+}
+
+.current-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--accent-dark), var(--accent));
 }
 
 .current-card::after {
@@ -378,12 +392,12 @@ button {
 
 .current-card .eyebrow,
 .current-card p {
-  color: rgba(248, 255, 252, 0.78);
+  color: var(--muted);
 }
 
 .current-card h2 {
   margin-bottom: 10px;
-  color: #ffffff;
+  color: var(--text);
   font-size: clamp(1.65rem, 3.4vw, 2.25rem);
   letter-spacing: -0.02em;
 }
@@ -470,6 +484,7 @@ button {
 }
 
 .temperature-block > span {
+  color: var(--accent-dark);
   font-size: clamp(3.8rem, 8vw, 6rem);
   font-weight: 950;
   line-height: 0.88;
@@ -479,7 +494,7 @@ button {
 .temperature-block strong {
   display: block;
   margin-bottom: 8px;
-  color: #ffffff;
+  color: var(--text);
   font-size: 1.18rem;
 }
 
@@ -488,9 +503,9 @@ button {
 }
 
 .sun-row span {
-  color: rgba(248, 255, 252, 0.88);
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.12);
+  color: var(--muted);
+  border-color: var(--line);
+  background: var(--surface-subtle);
 }
 
 .decision-card {
